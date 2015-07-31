@@ -1,0 +1,43 @@
+﻿@{
+    Layout = null;
+}
+
+<form id="frm">
+    <input id="message" />
+    <input type="submit" value="Send" />
+</form>
+
+<ul id="messageList"></ul>
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+<script src="~/signalr/hubs"></script>
+
+
+<script>
+
+    var chat = $.connection.chatHub;
+
+    $.connection.hub.start().done(function () {
+        document.getElementById('frm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var message = document.getElementById('message').value;
+            chat.server.sendMessage(message); // calls server sendMessage
+        });
+    });
+
+
+    chat.client.sendMessage = function (message) {
+        document.getElementById('messageList').innerHTML += '<li>' + message + '</li>';
+    }
+
+
+
+</script>
+
+
+
+
+

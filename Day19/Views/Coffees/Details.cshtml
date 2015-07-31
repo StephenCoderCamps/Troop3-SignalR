@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Day19.Models.Coffee>
+
+
+<ul>
+    @foreach (var coffee in Model) {
+        <li id="@coffee.Id">@coffee.Type</li>
+    }
+</ul>
+
+
+@section scripts {
+
+    <script>
+
+        $('ul').sortable({
+            update: function (e, ui) {
+                var order = $(this).sortable('toArray');
+                $.ajax({
+                    data: JSON.stringify(order),
+                    type: 'POST',
+                    url: '/api/coffees/saveOrder',
+                    contentType: 'application/json',
+                    dataType: 'json'
+                });
+            }
+        }).disableSelection();
+
+
+
+    </script>
+
+}
+
